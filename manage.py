@@ -1,11 +1,9 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
 import os
 import sys
 
 
 def main():
-    """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mamarbank.settings")
     try:
         from django.core.management import execute_from_command_line
@@ -16,14 +14,12 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
+    # Get the port from the environment variable, default to 8000 if not set
     port = os.environ.get("PORT", "8000")
 
-    # Construct the address and port argument for runserver
-    addrport = f"0.0.0.0:{port}"
-
     # Replace the default runserver command line argument
-    sys.argv[1] = "runserver"
-    sys.argv.append(addrport)
+    addrport = f"0.0.0.0:{port}"
+    sys.argv = ["manage.py", "runserver", addrport]
 
     execute_from_command_line(sys.argv)
 
