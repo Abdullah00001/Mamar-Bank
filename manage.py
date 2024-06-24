@@ -18,9 +18,12 @@ def main():
 
     port = os.environ.get("PORT", "8000")
 
-    # Add the default command line arguments for runserver
-    sys.argv.append("runserver")
-    sys.argv.append("0.0.0.0:" + port)
+    # Construct the address and port argument for runserver
+    addrport = f"0.0.0.0:{port}"
+
+    # Replace the default runserver command line argument
+    sys.argv[1] = "runserver"
+    sys.argv.append(addrport)
 
     execute_from_command_line(sys.argv)
 
