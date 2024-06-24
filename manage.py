@@ -23,7 +23,6 @@ def main():
     sys.argv.append("0.0.0.0:" + port)
 
     execute_from_command_line(sys.argv)
-    execute_from_command_line(sys.argv)
 
 
 if __name__ == "__main__":
