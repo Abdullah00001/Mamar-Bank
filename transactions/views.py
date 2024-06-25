@@ -245,8 +245,8 @@ class SendMoneyView(TransactionCreateMixin):
             reciver.save(update_fields=["balance"])
             sender.save(update_fields=["balance"])
             messages.success(self.request, "Send Money Successful")
-            transaction_email(sender, amount, self.title)
-            transaction_email(reciver, amount, self.title)
+            transaction_email(self.request.user, amount, self.title)
+            transaction_email(reciver.user, amount, self.title)
             return super().form_valid(form)
         except UserBankAccount.DoesNotExist:
             form.add_error("account_no", "Invalid Account No")
