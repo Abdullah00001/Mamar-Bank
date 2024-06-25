@@ -36,6 +36,8 @@ def transaction_email(user, amount, subject):
     send_email = EmailMultiAlternatives(subject=subject, body="", to=to_email)
     send_email.attach_alternative(message, "text/html")
     send_email.send()
+
+
 def loan_approved_email(user, amount, subject):
     message = render_to_string(
         "transactions/loanstatus.html",
@@ -148,7 +150,7 @@ class LoanRequestView(TransactionCreateMixin):
             self.request,
             f'Loan request for {"{:,.2f}".format(float(amount))}$ submitted successfully',
         )
-        transaction_email(self.request.user,amount,self.title)
+        transaction_email(self.request.user, amount, self.title)
         return super().form_valid(form)
 
 
@@ -243,6 +245,8 @@ class SendMoneyView(TransactionCreateMixin):
             reciver.save(update_fields=["balance"])
             sender.save(update_fields=["balance"])
             messages.success(self.request, "Send Money Successful")
+            transaction_email(sender, amount, self.title)
+            transaction_email(reciver, amount, self.title)
             return super().form_valid(form)
         except UserBankAccount.DoesNotExist:
             form.add_error("account_no", "Invalid Account No")
